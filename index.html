@@ -4,219 +4,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BSUC 2025 Draft Lottery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --navy: #162636;
-      --gold: #C79A5B;
-      --burgundy: #A22D2E;
-      --light: #F5F1EB;
-      --accent-hover: #C03A3B;
-      --danger: #FF3B3B;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      background-color: var(--navy);
-      font-family: 'Roboto', sans-serif;
-      color: var(--light);
+      background-color: #0e1b2a;
+      color: #f5f1eb;
+      font-family: 'Arial', sans-serif;
       margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    header {
-      width: 100%;
-      background: linear-gradient(90deg, var(--burgundy), var(--gold));
       padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
     }
 
-    header h1 {
-      font-family: 'Anton', sans-serif;
-      font-size: 2.8rem;
-      color: var(--light);
-      letter-spacing: 2px;
-      margin: 0;
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.2em;
     }
 
     .subheader {
       font-style: italic;
-      color: #aaa;
-      margin: 10px auto 30px;
-      text-align: center;
-      font-size: 1.1rem;
+      color: #bbb;
+      margin-bottom: 1em;
     }
 
-    .on-the-clock {
-      text-align: center;
-      font-size: 1.3rem;
-      color: var(--gold);
+    .section-title {
+      font-weight: bold;
+      color: #C79A5B;
+      margin: 1em 0 0.2em;
       text-transform: uppercase;
-      margin-top: 20px;
-      font-weight: bold;
     }
 
-    .clock-name {
-      text-align: center;
-      font-size: 2rem;
-      margin-top: 10px;
+    #currentManager {
+      font-size: 1.8em;
       font-weight: bold;
-    }
-
-    .timer-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 15px;
+      margin: 0.2em 0;
     }
 
     #timer {
-      font-size: 2.2rem;
-      color: var(--light);
-      font-weight: bold;
-      background-color: transparent;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: background-color 0.4s;
+      font-size: 2em;
+      margin: 0.2em 0 1em;
     }
 
     .timer-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
       margin-top: 10px;
     }
 
-    .timer-controls button {
-      font-size: 1rem;
-      padding: 8px 14px;
-      margin: 0 5px;
-      border-radius: 6px;
-      border: none;
-      background-color: var(--gold);
-      color: var(--navy);
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .timer-controls button:hover {
-      background-color: var(--accent-hover);
-      color: var(--light);
-    }
-
-    .dropdown-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-      gap: 15px;
-    }
-
-    select, button#resetBtn, button#removeBtn {
-      font-size: 1.1rem;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background-color: var(--light);
-      color: var(--navy);
-      font-weight: bold;
-      cursor: pointer;
-    }
-
     .spots {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      max-width: 95%;
-      margin: 20px auto 40px;
-      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 30px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .spot {
-      background: rgba(245, 241, 235, 0.95);
-      color: var(--navy);
-      font-size: 1.2rem;
+      background-color: #1e2e3e;
+      border: 2px solid #C79A5B;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 1.2em;
       font-weight: bold;
-      width: 60px;
-      height: 60px;
+      min-height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: transform 0.2s, background 0.3s;
+    }
+
+    select, button {
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      background-color: #C79A5B;
+      color: #0e1b2a;
       cursor: pointer;
     }
 
-    .spot:hover {
-      transform: scale(1.08);
-      background: #ddd;
-    }
-
-    .taken {
-      background-color: #999 !important;
-      color: white !important;
-      pointer-events: none;
-    }
-
-    .draft-order {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .draft-pick {
-      background-color: var(--light);
-      color: var(--navy);
-      padding: 16px;
-      font-size: 1.2rem;
-      border-radius: 8px;
-      font-weight: bold;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .flashing {
-      background-color: var(--danger) !important;
-      color: white !important;
+    button:hover {
+      background-color: #a6783d;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>BSUC 2025 Draft Lottery</h1>
-  </header>
+  <h1>BSUC 2025 Draft Lottery</h1>
   <div class="subheader">Football is legacy. Crooning is life.</div>
 
-  <div class="on-the-clock">ON THE CLOCK</div>
-  <div class="clock-name" id="clockName">Select a manager below</div>
+  <div class="section-title">On The Clock</div>
+  <div id="currentManager">Justin</div>
 
-  <div class="timer-container">
-    <div id="timer">10:00</div>
-    <div class="timer-controls">
-      <button onclick="startTimer()">Start</button>
-      <button onclick="stopTimer()">Stop</button>
-      <button onclick="resetTimer()">Reset</button>
-    </div>
+  <div id="timer">10:00</div>
+  <div class="timer-controls">
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
   </div>
 
-  <div class="dropdown-container" id="dropdownContainer">
-    <select id="managerDropdown" onchange="updateClockName()">
-      <option disabled selected>Select manager</option>
+  <div class="controls">
+    <select id="managerSelect">
       <option>Justin</option>
       <option>Ryan</option>
       <option>Jared</option>
@@ -230,115 +129,106 @@
       <option>Kyle</option>
       <option>Seth</option>
     </select>
-    <button id="resetBtn" onclick="resetBoard()">Reset</button>
-    <button id="removeBtn" onclick="removePickPrompt()">Remove Pick</button>
+    <button onclick="assignPick()">Pick</button>
+    <button onclick="removePick()">Remove Pick</button>
+    <button onclick="resetDraft()">Reset All</button>
   </div>
 
   <div class="spots" id="spotsContainer">
-    <!-- Spots 1–12 -->
-    ${[...Array(12).keys()].map(i => `<div class="spot" onclick="selectSpot(this)">${i + 1}</div>`).join('')}
+    <div class="spot" onclick="selectSpot(this)">1</div>
+    <div class="spot" onclick="selectSpot(this)">2</div>
+    <div class="spot" onclick="selectSpot(this)">3</div>
+    <div class="spot" onclick="selectSpot(this)">4</div>
+    <div class="spot" onclick="selectSpot(this)">5</div>
+    <div class="spot" onclick="selectSpot(this)">6</div>
+    <div class="spot" onclick="selectSpot(this)">7</div>
+    <div class="spot" onclick="selectSpot(this)">8</div>
+    <div class="spot" onclick="selectSpot(this)">9</div>
+    <div class="spot" onclick="selectSpot(this)">10</div>
+    <div class="spot" onclick="selectSpot(this)">11</div>
+    <div class="spot" onclick="selectSpot(this)">12</div>
   </div>
-
-  <div class="draft-order" id="draftOrder">
-    ${[...Array(12).keys()].map(i => `<div class="draft-pick" id="pick-${i + 1}">${i + 1}. </div>`).join('')}
-  </div>
-
-  <audio id="alarmSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
 
   <script>
-    const managerOnClock = document.getElementById('clockName');
-    const spots = document.querySelectorAll('.spot');
-    const timerDisplay = document.getElementById('timer');
-    const alarm = document.getElementById('alarmSound');
-    let timer;
-    let totalSeconds = 600;
+    const timerDisplay = document.getElementById("timer");
+    let timerInterval;
+    let timeLeft = 600; // 10 minutes
 
-    function updateClockName() {
-      const dropdown = document.getElementById('managerDropdown');
-      const selectedName = dropdown.value;
-      managerOnClock.textContent = selectedName;
-    }
-
-    function selectSpot(el) {
-      if (el.classList.contains('taken')) return;
-      const spot = el.textContent;
-      const managerName = managerOnClock.textContent;
-      if (managerName === 'Select a manager below') return;
-
-      const pickEl = document.getElementById(`pick-${spot}`);
-      if (pickEl) {
-        pickEl.textContent = `${spot}. ${managerName}`;
-        el.classList.add('taken');
-        el.removeAttribute('onclick');
-      }
-    }
-
-    function resetBoard() {
-      spots.forEach(spot => {
-        spot.classList.remove('taken');
-        spot.setAttribute('onclick', 'selectSpot(this)');
-      });
-      for (let i = 1; i <= 12; i++) {
-        document.getElementById(`pick-${i}`).textContent = `${i}. `;
-      }
-      managerOnClock.textContent = 'Select a manager below';
-      document.getElementById('managerDropdown').selectedIndex = 0;
-      resetTimer();
-    }
-
-    function removePickPrompt() {
-      const pickNum = prompt("Enter the draft spot number to clear (1-12):");
-      const spotNum = parseInt(pickNum);
-      if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
-        const pickEl = document.getElementById(`pick-${spotNum}`);
-        if (pickEl) pickEl.textContent = `${spotNum}. `;
-
-        spots.forEach(spot => {
-          if (spot.textContent === String(spotNum)) {
-            spot.classList.remove('taken');
-            spot.setAttribute('onclick', 'selectSpot(this)');
-          }
-        });
-      } else {
-        alert("Invalid input. Please enter a number from 1 to 12.");
-      }
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }
 
     function startTimer() {
-      clearInterval(timer);
-      timer = setInterval(() => {
-        if (totalSeconds <= 0) {
-          clearInterval(timer);
-          alarm.play();
-          timerDisplay.classList.add("flashing");
-          return;
+      stopTimer();
+      timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateTimerDisplay();
+        } else {
+          stopTimer();
+          alert("Time's up!");
         }
-        totalSeconds--;
-        updateTimerDisplay();
       }, 1000);
     }
 
     function stopTimer() {
-      clearInterval(timer);
+      clearInterval(timerInterval);
     }
 
     function resetTimer() {
-      clearInterval(timer);
-      totalSeconds = 600;
+      stopTimer();
+      timeLeft = 600;
       updateTimerDisplay();
-      timerDisplay.classList.remove("flashing");
     }
 
-    function updateTimerDisplay() {
-      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-      const seconds = String(totalSeconds % 60).padStart(2, '0');
-      timerDisplay.textContent = `${minutes}:${seconds}`;
+    updateTimerDisplay();
 
-      if (totalSeconds <= 30) {
-        timerDisplay.classList.add("flashing");
-      } else {
-        timerDisplay.classList.remove("flashing");
+    const spots = document.querySelectorAll(".spot");
+    const managerSelect = document.getElementById("managerSelect");
+    const currentManager = document.getElementById("currentManager");
+    let selectedSpot = null;
+
+    function selectSpot(spot) {
+      selectedSpot = spot;
+    }
+
+    function assignPick() {
+      if (!selectedSpot) {
+        alert("Select a spot first.");
+        return;
       }
+      const manager = managerSelect.value;
+      selectedSpot.textContent = manager;
+      selectedSpot.onclick = null;
+      selectedSpot.style.backgroundColor = "#2c3e50";
+      selectedSpot = null;
+      currentManager.textContent = manager;
+      resetTimer(); // reset timer for next pick
+    }
+
+    function removePick() {
+      if (!selectedSpot) {
+        alert("Select a spot to clear.");
+        return;
+      }
+      selectedSpot.textContent = selectedSpot.innerText.match(/\d+/)[0];
+      selectedSpot.onclick = function () { selectSpot(this); };
+      selectedSpot.style.backgroundColor = "#1e2e3e";
+      selectedSpot = null;
+      currentManager.textContent = "";
+    }
+
+    function resetDraft() {
+      spots.forEach((spot, i) => {
+        spot.textContent = i + 1;
+        spot.onclick = function () { selectSpot(this); };
+        spot.style.backgroundColor = "#1e2e3e";
+      });
+      currentManager.textContent = "";
+      selectedSpot = null;
+      resetTimer();
     }
   </script>
 </body>
