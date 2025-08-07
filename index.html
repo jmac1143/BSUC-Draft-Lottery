@@ -34,6 +34,7 @@
       display: none;
       justify-content: center;
       margin-bottom: 30px;
+      gap: 20px;
     }
     select {
       font-size: 1.2rem;
@@ -59,6 +60,7 @@
       text-align: center;
       font-weight: bold;
       pointer-events: none;
+      cursor: pointer;
     }
     .taken {
       background-color: #999;
@@ -74,7 +76,7 @@
       border-radius: 5px;
       border: none;
     }
-    #loginBtn {
+    #loginBtn, #resetBtn {
       padding: 8px 15px;
       font-size: 1rem;
       background-color: #C79A5B;
@@ -113,17 +115,18 @@
       <option disabled selected>Select manager</option>
       <option>Justin</option>
       <option>Ryan</option>
-      <option>Timmy</option>
-      <option>Seth</option>
-      <option>Alex K</option>
-      <option>Juice</option>
+      <option>Jared</option>
       <option>Fyola</option>
+      <option>Alex K</option>
+      <option>Alex G</option>
       <option>Jimmy</option>
+      <option>Evan</option>
+      <option>Timmy</option>
       <option>Jonathan</option>
       <option>Kyle</option>
-      <option>JB</option>
-      <option>Evan</option>
+      <option>Seth</option>
     </select>
+    <button id="resetBtn" onclick="resetBoard()">Reset</button>
   </div>
   <div class="spots" id="spotsContainer">
     <div class="spot" onclick="selectSpot(this)">1</div>
@@ -139,7 +142,6 @@
     <div class="spot" onclick="selectSpot(this)">11</div>
     <div class="spot" onclick="selectSpot(this)">12</div>
   </div>
-
   <div class="draft-order" id="draftOrder">
     <div class="draft-pick" id="pick-1">1. </div>
     <div class="draft-pick" id="pick-2">2. </div>
@@ -154,7 +156,6 @@
     <div class="draft-pick" id="pick-11">11. </div>
     <div class="draft-pick" id="pick-12">12. </div>
   </div>
-
   <script>
     const managerOnClock = document.getElementById('clockName');
     const dropdownContainer = document.getElementById('dropdownContainer');
@@ -176,10 +177,21 @@
       const pickEl = document.getElementById(`pick-${spot}`);
       if (pickEl) {
         pickEl.textContent = `${spot}. ${managerName}`;
+        el.classList.add('taken');
+        el.removeAttribute('onclick');
       }
+    }
 
-      el.classList.add('taken');
-      el.removeAttribute('onclick');
+    function resetBoard() {
+      spots.forEach(spot => {
+        spot.classList.remove('taken');
+        spot.setAttribute('onclick', 'selectSpot(this)');
+      });
+      for (let i = 1; i <= 12; i++) {
+        document.getElementById(`pick-${i}`).textContent = `${i}. `;
+      }
+      managerOnClock.textContent = 'Select a manager below';
+      document.getElementById('managerDropdown').selectedIndex = 0;
     }
 
     function checkPIN() {
