@@ -76,7 +76,7 @@
       border-radius: 5px;
       border: none;
     }
-    #loginBtn, #resetBtn {
+    #loginBtn, #resetBtn, #removeBtn {
       padding: 8px 15px;
       font-size: 1rem;
       background-color: #C79A5B;
@@ -127,6 +127,7 @@
       <option>Seth</option>
     </select>
     <button id="resetBtn" onclick="resetBoard()">Reset</button>
+    <button id="removeBtn" onclick="removePickPrompt()">Remove Pick</button>
   </div>
   <div class="spots" id="spotsContainer">
     <div class="spot" onclick="selectSpot(this)">1</div>
@@ -192,6 +193,24 @@
       }
       managerOnClock.textContent = 'Select a manager below';
       document.getElementById('managerDropdown').selectedIndex = 0;
+    }
+
+    function removePickPrompt() {
+      const pickNum = prompt("Enter the draft spot number to clear (1-12):");
+      const spotNum = parseInt(pickNum);
+      if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
+        const pickEl = document.getElementById(`pick-${spotNum}`);
+        if (pickEl) pickEl.textContent = `${spotNum}. `;
+
+        spots.forEach(spot => {
+          if (spot.textContent === String(spotNum)) {
+            spot.classList.remove('taken');
+            spot.setAttribute('onclick', 'selectSpot(this)');
+          }
+        });
+      } else {
+        alert("Invalid input. Please enter a number from 1 to 12.");
+      }
     }
 
     function checkPIN() {
