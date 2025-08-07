@@ -1,165 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BSUC 2025 Draft Lottery</title>
-  <style>
-    body {
-      margin: 0;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BSUC 2025 Draft Lottery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--navy: #162636;
+--gold: #C79A5B;
+      --white: #f5f1eb;
+      --burgundy: #A22D2E;
+      --light: #F5F1EB;
+      --accent-hover: #C03A3B;
+    }
+
+    * {
+      box-sizing: border-box;
+}
+
+body {
+      font-family: 'Karla', sans-serif;
+background-color: var(--navy);
+      color: var(--white);
+      font-family: 'Roboto', sans-serif;
+      color: var(--light);
+margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0e1c2f;
-      color: #F5F1EB;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(90deg, var(--burgundy), var(--gold));
+padding: 20px;
       text-align: center;
-    }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
 
-    h1 {
-      margin-top: 30px;
-      font-size: 2rem;
-      color: #C79A5B;
-    }
+header h1 {
+      font-family: 'League Gothic', sans-serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--gold);
+      font-family: 'Anton', sans-serif;
+      font-size: 2.8rem;
+      color: var(--light);
+      letter-spacing: 2px;
+margin: 0;
+}
 
-    .subheader {
-      font-size: 1rem;
+.subheader {
+      margin-bottom: 40px;
+      font-size: 1.2rem;
       color: #ccc;
-      margin-bottom: 30px;
-    }
+      font-style: italic;
+      color: #aaa;
+      margin: 10px auto 30px;
+      text-align: center;
+      font-size: 1.1rem;
+}
 
-    .on-the-clock {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #C79A5B;
-    }
+.on-the-clock {
+      font-size: 1.4rem;
+      text-align: center;
+      font-size: 1.3rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 30px;
+font-weight: bold;
+      margin-bottom: 10px;
+}
 
     .clock-name {
-      font-size: 2rem;
+    #clockName {
+      text-align: center;
+font-size: 2rem;
+      font-weight: bold;
+      color: var(--gold);
+margin-bottom: 30px;
+      font-weight: bold;
+}
+
+.dropdown-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+margin-bottom: 30px;
+      gap: 15px;
+}
+
+    select, button {
+    select, button#resetBtn, button#removeBtn {
+font-size: 1.1rem;
+padding: 12px;
+border-radius: 8px;
+border: none;
+      margin: 5px;
+      font-weight: bold;
+    }
+
+    select {
+      background-color: #fff;
+      color: #000;
+    }
+
+    button {
+      background-color: var(--gold);
+      background-color: var(--light);
+color: var(--navy);
+      font-weight: bold;
+cursor: pointer;
+}
+
+    button:hover {
+      background-color: #b48a4f;
+    select:hover, button#resetBtn:hover, button#removeBtn:hover {
+      background-color: #e5e2da;
+}
+
+.spots {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+      margin-bottom: 40px;
+      gap: 12px;
+      max-width: 95%;
+      margin: 20px auto 40px;
+      padding: 0 20px;
+}
+
+.spot {
+      background-color: #ffffff22;
+      border: 2px solid var(--gold);
+      padding: 15px;
+      margin: 10px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.3rem;
+      background: rgba(245, 241, 235, 0.95);
+      color: var(--navy);
+      font-size: 1.2rem;
+      font-weight: bold;
+      width: 60px;
+      height: 60px;
+display: flex;
+align-items: center;
+justify-content: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s, background 0.3s;
+cursor: pointer;
+}
+
+    .spot.taken {
+      background-color: var(--gold);
+      color: var(--navy);
+      border: none;
+      cursor: default;
+    .spot:hover {
+      transform: scale(1.08);
+      background: #ddd;
+    }
+
+    .taken {
+      background-color: #999 !important;
+      color: white !important;
+      pointer-events: none;
+}
+
+.draft-order {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+}
+
+.draft-pick {
+      font-size: 1.3rem;
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+      background-color: var(--light);
+      color: var(--navy);
+      padding: 16px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+}
+
+    @media (max-width: 600px) {
+      .spots {
+        gap: 8px;
+      }
+    #timerSection {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+      .spot {
+        margin: 5px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+    #timerDisplay {
+      font-size: 2.5rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
 
-    #timerDisplay {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
+      .clock-name {
+        font-size: 1.5rem;
+      }
     .flashing {
       animation: flash 1s infinite;
-      color: red;
     }
 
+      .draft-order {
+        font-size: 1rem;
+      }
     @keyframes flash {
       0%, 100% { color: red; }
       50% { color: white; }
-    }
-
-    .dropdown-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px auto;
-      max-width: 800px;
-    }
-
-    select, button {
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: none;
-    }
-
-    button {
-      background-color: #C79A5B;
-      color: #0e1c2f;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #A22D2E;
-      color: white;
-    }
-
-    .pick-display {
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .pick-slot {
-      background-color: #162636;
-      border: 2px solid #C79A5B;
-      padding: 20px;
-      border-radius: 8px;
-      font-size: 1.2rem;
-    }
-
-    @media (max-width: 600px) {
-      .pick-display {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+}
+</style>
 </head>
 <body>
+<header>
+<h1>BSUC 2025 Draft Lottery</h1>
+</header>
+<div class="subheader">Football is legacy. Crooning is life.</div>
 
-  <h1>BSUC 2025 Draft Lottery</h1>
-  <div class="subheader">Football is legacy. Crooning is life.</div>
+<div class="on-the-clock">ON THE CLOCK</div>
+<div class="clock-name" id="clockName">Select a manager below</div>
 
-  <div class="on-the-clock">ON THE CLOCK</div>
-  <div class="clock-name" id="clockName">Select a manager below</div>
-  <div id="timerDisplay">10:00</div>
+<div class="dropdown-container" id="dropdownContainer">
+<select id="managerDropdown" onchange="updateClockName()">
+<option disabled selected>Select manager</option>
+<option>Justin</option>
+<option>Ryan</option>
+<option>Jared</option>
+<option>Fyola</option>
+<option>Alex K</option>
+<option>Alex G</option>
+<option>Jimmy</option>
+<option>Evan</option>
+<option>Timmy</option>
+<option>Jonathan</option>
+<option>Kyle</option>
+<option>Seth</option>
+</select>
+    <button onclick="resetBoard()">Reset</button>
+    <button onclick="removePickPrompt()">Remove Pick</button>
+    <button onclick="lockDraft()">Lock Picks</button>
+    <button id="resetBtn" onclick="resetBoard()">Reset</button>
+    <button id="removeBtn" onclick="removePickPrompt()">Remove Pick</button>
+</div>
 
-  <div class="dropdown-container">
-    <select id="managerDropdown" onchange="updateClockName()">
-      <option disabled selected>Select manager</option>
-      <option>Justin</option>
-      <option>Ryan</option>
-      <option>Jared</option>
-      <option>Fyola</option>
-      <option>Alex K</option>
-      <option>Alex G</option>
-      <option>Jimmy</option>
-      <option>Evan</option>
-      <option>Timmy</option>
-      <option>Jonathan</option>
-      <option>Kyle</option>
-      <option>Seth</option>
-    </select>
+<div class="spots" id="spotsContainer">
+<div class="spot" onclick="selectSpot(this)">1</div>
+<div class="spot" onclick="selectSpot(this)">2</div>
+<div class="spot" onclick="selectSpot(this)">3</div>
+<div class="spot" onclick="selectSpot(this)">4</div>
+<div class="spot" onclick="selectSpot(this)">5</div>
+<div class="spot" onclick="selectSpot(this)">6</div>
+<div class="spot" onclick="selectSpot(this)">7</div>
+<div class="spot" onclick="selectSpot(this)">8</div>
+<div class="spot" onclick="selectSpot(this)">9</div>
+<div class="spot" onclick="selectSpot(this)">10</div>
+<div class="spot" onclick="selectSpot(this)">11</div>
+<div class="spot" onclick="selectSpot(this)">12</div>
+</div>
+
+<div class="draft-order" id="draftOrder">
+<div class="draft-pick" id="pick-1">1. </div>
+<div class="draft-pick" id="pick-2">2. </div>
+<div class="draft-pick" id="pick-3">3. </div>
+<div class="draft-pick" id="pick-4">4. </div>
+<div class="draft-pick" id="pick-5">5. </div>
+<div class="draft-pick" id="pick-6">6. </div>
+<div class="draft-pick" id="pick-7">7. </div>
+<div class="draft-pick" id="pick-8">8. </div>
+<div class="draft-pick" id="pick-9">9. </div>
+<div class="draft-pick" id="pick-10">10. </div>
+<div class="draft-pick" id="pick-11">11. </div>
+<div class="draft-pick" id="pick-12">12. </div>
+</div>
+
+  <div id="timerSection">
+    <div id="timerDisplay">60</div>
     <button onclick="startTimer()">Start</button>
     <button onclick="stopTimer()">Stop</button>
     <button onclick="resetTimer()">Reset</button>
-    <button onclick="removePickPrompt()">Remove Pick</button>
-    <button onclick="lockDraft()">Lock Picks</button>
+    <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
   </div>
 
-  <div class="pick-display" id="pickDisplay">
-    ${[...Array(12)].map((_, i) => `<div class="pick-slot" id="pick${i + 1}">${i + 1}</div>`).join('')}
-  </div>
+<script>
+const managerOnClock = document.getElementById('clockName');
+const spots = document.querySelectorAll('.spot');
 
-  <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+function updateClockName() {
+const dropdown = document.getElementById('managerDropdown');
+      managerOnClock.textContent = dropdown.value;
+      const selectedName = dropdown.value;
+      managerOnClock.textContent = selectedName;
+}
 
-  <script>
+function selectSpot(el) {
+if (el.classList.contains('taken')) return;
+const spot = el.textContent;
+const managerName = managerOnClock.textContent;
+if (managerName === 'Select a manager below') return;
+
+const pickEl = document.getElementById(pick-${spot});
+if (pickEl) {
+pickEl.textContent = ${spot}. ${managerName};
+el.classList.add('taken');
+el.removeAttribute('onclick');
+}
+}
+
+function resetBoard() {
+spots.forEach(spot => {
+spot.classList.remove('taken');
+spot.setAttribute('onclick', 'selectSpot(this)');
+});
+for (let i = 1; i <= 12; i++) {
+document.getElementById(pick-${i}).textContent = ${i}. ;
+}
+managerOnClock.textContent = 'Select a manager below';
+document.getElementById('managerDropdown').selectedIndex = 0;
+}
+
+function removePickPrompt() {
+const pickNum = prompt("Enter the draft spot number to clear (1-12):");
+const spotNum = parseInt(pickNum);
+if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
+const pickEl = document.getElementById(pick-${spotNum});
+if (pickEl) pickEl.textContent = ${spotNum}. ;
+
+spots.forEach(spot => {
+if (spot.textContent === String(spotNum)) {
+spot.classList.remove('taken');
+spot.setAttribute('onclick', 'selectSpot(this)');
+}
+});
+} else {
+alert("Invalid input. Please enter a number from 1 to 12.");
+}
+}
+
+    function lockDraft() {
+      document.querySelectorAll('select, button').forEach(el => el.disabled = true);
+      spots.forEach(spot => {
+        spot.style.pointerEvents = 'none';
+      });
     let timer;
-    let timeLeft = 600;
-
+    let timeLeft = 60;
     const display = document.getElementById("timerDisplay");
     const buzzer = document.getElementById("buzzer");
 
-    function formatTime(seconds) {
-      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-      const s = (seconds % 60).toString().padStart(2, '0');
-      return `${m}:${s}`;
-    }
-
     function updateDisplay() {
-      display.textContent = formatTime(timeLeft);
+      display.textContent = timeLeft;
       if (timeLeft <= 10 && timeLeft > 0) {
         display.classList.add("flashing");
       } else {
@@ -186,41 +404,10 @@
 
     function resetTimer() {
       clearInterval(timer);
-      timeLeft = 600;
+      timeLeft = 60;
       updateDisplay();
       display.classList.remove("flashing");
-    }
-
-    resetTimer(); // Init on load
-
-    function updateClockName() {
-      const name = document.getElementById("managerDropdown").value;
-      document.getElementById("clockName").textContent = name;
-
-      const pickSlot = document.querySelector(`#pickDisplay .pick-slot:empty`);
-      if (pickSlot) {
-        pickSlot.textContent = name;
-        pickSlot.setAttribute('data-name', name);
-      }
-    }
-
-    function removePickPrompt() {
-      const name = prompt("Enter manager name to remove:")?.trim();
-      if (!name) return;
-
-      const slot = [...document.querySelectorAll(".pick-slot")].find(
-        d => d.getAttribute("data-name") === name
-      );
-      if (slot) {
-        slot.textContent = slot.id.replace("pick", "");
-        slot.removeAttribute("data-name");
-      }
-    }
-
-    function lockDraft() {
-      document.querySelector(".dropdown-container").style.display = "none";
-      document.getElementById("clockName").textContent = "DRAFT ORDER LOCKED";
-    }
-  </script>
+}
+</script>
 </body>
 </html>
