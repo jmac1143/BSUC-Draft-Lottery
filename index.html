@@ -47,18 +47,45 @@
       text-align: center;
     }
 
+    .timer-and-clock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
     .on-the-clock {
       font-size: 1.3rem;
       color: var(--gold);
       text-transform: uppercase;
       font-weight: bold;
-      margin-top: 20px;
     }
 
     .clock-name {
       font-size: 2rem;
       font-weight: bold;
       color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    #timerDisplay {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .flashing {
+      animation: flash 1s infinite;
+    }
+
+    @keyframes flash {
+      0%, 100% { color: red; }
+      50% { color: white; }
+    }
+
+    .timer-buttons {
+      display: flex;
+      gap: 10px;
       margin-bottom: 20px;
     }
 
@@ -149,26 +176,6 @@
       box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
 
-    #timerSection {
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    #timerDisplay {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .flashing {
-      animation: flash 1s infinite;
-    }
-
-    @keyframes flash {
-      0%, 100% { color: red; }
-      50% { color: white; }
-    }
-
     @media (max-width: 600px) {
       .spot {
         width: 40px;
@@ -192,8 +199,16 @@
   </header>
   <div class="subheader">Football is legacy. Crooning is life.</div>
 
-  <div class="on-the-clock">ON THE CLOCK</div>
-  <div class="clock-name" id="clockName">Select a manager below</div>
+  <div class="timer-and-clock">
+    <div class="on-the-clock">ON THE CLOCK</div>
+    <div class="clock-name" id="clockName">Select a manager below</div>
+    <div id="timerDisplay">10:00</div>
+    <div class="timer-buttons">
+      <button onclick="startTimer()">Start</button>
+      <button onclick="stopTimer()">Stop</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
 
   <div class="dropdown-container">
     <select id="managerDropdown" onchange="setManager()">
@@ -216,31 +231,56 @@
     <button onclick="lockDraft()">Lock Picks</button>
   </div>
 
-  <div class="spots" id="spotsContainer">
-    <!-- Spots 1-12 -->
-  </div>
+  <div class="spots" id="spotsContainer"></div>
+  <div class="draft-order" id="draftOrder"></div>
 
-  <div class="draft-order" id="draftOrder">
-    <!-- Picks 1-12 -->
-  </div>
-
-  <div id="timerSection">
-    <div id="timerDisplay">60</div>
-    <button onclick="startTimer()">Start</button>
-    <button onclick="stopTimer()">Stop</button>
-    <button onclick="resetTimer()">Reset</button>
-    <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
-  </div>
+  <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
 
   <script>
-    const managerDropdown = document.getElementById("managerDropdown");
     const clockName = document.getElementById("clockName");
+    const managerDropdown = document.getElementById("managerDropdown");
     const draftOrder = document.getElementById("draftOrder");
     const spotsContainer = document.getElementById("spotsContainer");
-    let timer;
-    let timeLeft = 60;
 
-    // Generate 12 spots
+    // TIMER
+    let timer;
+    let timeLeft = 600; // 10 minutes
+    const timerDisplay = document.getElementById("timerDisplay");
+    const buzzer = document.getElementById("buzzer");
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+      timerDisplay.classList.toggle("flashing", timeLeft <= 10 && timeLeft > 0);
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timerDisplay.classList.remove("flashing");
+          buzzer.play();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timeLeft = 600;
+      updateTimerDisplay();
+    }
+
+    updateTimerDisplay();
+
+    // DRAFT PICKS
     for (let i = 1; i <= 12; i++) {
       const spot = document.createElement("div");
       spot.classList.add("spot");
@@ -272,7 +312,7 @@
     }
 
     function removePick() {
-      const pickNum = prompt("Enter the pick number to clear (1–12):");
+      const pickNum = prompt("Enter pick number to clear (1-12):");
       const num = parseInt(pickNum);
       if (isNaN(num) || num < 1 || num > 12) return alert("Invalid number.");
       const pickEl = document.getElementById(`pick-${num}`);
@@ -295,6 +335,7 @@
       });
       managerDropdown.selectedIndex = 0;
       clockName.textContent = "Select a manager below";
+      resetTimer();
     }
 
     function lockDraft() {
@@ -302,40 +343,8 @@
       document.querySelectorAll(".spot").forEach(spot => {
         spot.style.pointerEvents = "none";
       });
-    }
-
-    const timerDisplay = document.getElementById("timerDisplay");
-    const buzzer = document.getElementById("buzzer");
-
-    function updateTimerDisplay() {
-      timerDisplay.textContent = timeLeft;
-      timerDisplay.classList.toggle("flashing", timeLeft <= 10 && timeLeft > 0);
-    }
-
-    function startTimer() {
-      clearInterval(timer);
-      timer = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          buzzer.play();
-          timerDisplay.classList.remove("flashing");
-        }
-      }, 1000);
-    }
-
-    function stopTimer() {
       clearInterval(timer);
     }
-
-    function resetTimer() {
-      clearInterval(timer);
-      timeLeft = 60;
-      updateTimerDisplay();
-    }
-
-    updateTimerDisplay();
   </script>
 </body>
 </html>
