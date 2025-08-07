@@ -1,189 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BSUC 2025 Draft Lottery</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --navy: #162636;
-  --gold: #C79A5B;
-  --white: #f5f1eb;
-  --burgundy: #A22D2E;
-  --light: #F5F1EB;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSUC 2025 Draft Lottery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #162636;
+      --gold: #C79A5B;
+      --white: #f5f1eb;
+      --burgundy: #A22D2E;
+      --light: #F5F1EB;
+    }
 
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: var(--navy);
-  color: var(--light);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-  width: 100%;
-  background: linear-gradient(90deg, var(--burgundy), var(--gold));
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--navy);
+      color: var(--light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-header h1 {
-  font-family: 'Anton', sans-serif;
-  font-size: 2.8rem;
-  color: var(--light);
-  letter-spacing: 2px;
-  margin: 0;
-}
+    header {
+      width: 100%;
+      background: linear-gradient(90deg, var(--burgundy), var(--gold));
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
 
-.subheader {
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  color: #aaa;
-  font-style: italic;
-  text-align: center;
-}
+    header h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.8rem;
+      color: var(--white);
+      margin: 0;
+      letter-spacing: 2px;
+    }
 
-#onTheClock {
-  font-size: 1.3rem;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-top: 30px;
-  font-weight: bold;
-  text-align: center;
-}
+    .subheader {
+      margin: 10px auto 30px;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #aaa;
+      font-style: italic;
+    }
 
-#clockName {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--gold);
-  margin-bottom: 20px;
-}
+    .on-the-clock {
+      font-size: 1.3rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-top: 30px;
+      text-align: center;
+    }
 
-#timerDisplay {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #00FF00;
-  text-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  text-align: center;
-}
+    .clock-name {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--gold);
+      margin-bottom: 10px;
+      text-align: center;
+    }
 
-#timerDisplay.flashing {
-  animation: flash 1s infinite;
-}
+    #timerDisplay {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 0 0 15px red;
+    }
 
-@keyframes flash {
-  0%, 100% { color: red; text-shadow: 0 0 10px red; }
-  50% { color: white; text-shadow: none; }
-}
+    .dropdown-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
 
-.dropdown-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+    select, button {
+      font-size: 1.1rem;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-select, button {
-  font-size: 1.1rem;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  margin: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    select {
+      background-color: #fff;
+      color: #000;
+    }
 
-select {
-  background-color: #fff;
-  color: #000;
-}
+    button {
+      background-color: var(--gold);
+      color: var(--navy);
+    }
 
-button {
-  background-color: var(--light);
-  color: var(--navy);
-}
+    .spots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px auto 40px;
+      padding: 0 20px;
+    }
 
-button:hover {
-  background-color: #e5e2da;
-}
+    .spot {
+      width: 60px;
+      height: 60px;
+      background: rgba(245, 241, 235, 0.95);
+      color: var(--navy);
+      font-weight: bold;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
 
-.spots {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 20px auto;
-  padding: 0 20px;
-  gap: 12px;
-  max-width: 95%;
-}
+    .spot:hover {
+      transform: scale(1.08);
+      background: #ddd;
+    }
 
-.spot {
-  background: rgba(245, 241, 235, 0.95);
-  color: var(--navy);
-  font-weight: bold;
-  font-size: 1.2rem;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.2s, background 0.3s;
-  cursor: pointer;
-}
+    .spot.taken {
+      background-color: var(--gold);
+      color: var(--navy);
+      cursor: default;
+    }
 
-.spot:hover {
-  transform: scale(1.08);
-  background: #ddd;
-}
+    .draft-order {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
 
-.spot.taken {
-  background-color: var(--gold);
-  color: var(--navy);
-  cursor: default;
-}
-
-.draft-order {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin: 20px auto;
-  padding: 0 20px;
-  max-width: 800px;
-}
-
-.draft-pick {
-  background-color: var(--light);
-  color: var(--navy);
-  font-weight: bold;
-  border-radius: 8px;
-  padding: 16px;
-  font-size: 1.2rem;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-  text-align: center;
-}
-</style>
+    .draft-pick {
+      background-color: var(--light);
+      color: var(--navy);
+      padding: 16px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>BSUC 2025 Draft Lottery</h1>
   </header>
   <div class="subheader">Football is legacy. Crooning is life.</div>
-
-  <div id="onTheClock">ON THE CLOCK</div>
-  <div id="clockName">Select a manager below</div>
+  <div class="on-the-clock">ON THE CLOCK</div>
+  <div class="clock-name" id="clockName">Select a manager below</div>
   <div id="timerDisplay">10:00</div>
 
   <div class="dropdown-container">
@@ -206,104 +191,120 @@ button:hover {
     <button onclick="stopTimer()">Stop</button>
     <button onclick="resetTimer()">Reset</button>
     <button onclick="resetBoard()">Reset Board</button>
+    <button onclick="removePickPrompt()">Remove Pick</button>
+    <button onclick="lockDraft()">Lock Picks</button>
   </div>
 
   <div class="spots" id="spotsContainer"></div>
   <div class="draft-order" id="draftOrder"></div>
+  <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
 
-<audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+  <script>
+    const managerOnClock = document.getElementById('clockName');
+    const spotsContainer = document.getElementById('spotsContainer');
+    const draftOrder = document.getElementById('draftOrder');
+    const timerDisplay = document.getElementById("timerDisplay");
+    const buzzer = document.getElementById("buzzer");
+    let timer;
+    let timeLeft = 600;
 
-<script>
-const managerOnClock = document.getElementById('clockName');
-const dropdown = document.getElementById('managerDropdown');
-const spotsContainer = document.getElementById('spotsContainer');
-const draftOrder = document.getElementById('draftOrder');
+    for (let i = 1; i <= 12; i++) {
+      const spot = document.createElement('div');
+      spot.classList.add('spot');
+      spot.textContent = i;
+      spot.onclick = () => selectSpot(spot);
+      spotsContainer.appendChild(spot);
 
-for (let i = 1; i <= 12; i++) {
-  const spot = document.createElement('div');
-  spot.className = 'spot';
-  spot.textContent = i;
-  spot.onclick = () => selectSpot(spot);
-  spotsContainer.appendChild(spot);
-
-  const draftPick = document.createElement('div');
-  draftPick.className = 'draft-pick';
-  draftPick.id = `pick-${i}`;
-  draftPick.textContent = `${i}.`;
-  draftOrder.appendChild(draftPick);
-}
-
-function updateClockName() {
-  managerOnClock.textContent = dropdown.value;
-}
-
-function selectSpot(el) {
-  if (el.classList.contains('taken')) return;
-  const spot = el.textContent;
-  const managerName = managerOnClock.textContent;
-  if (managerName === 'Select a manager below') return;
-  const pickEl = document.getElementById(`pick-${spot}`);
-  if (pickEl) {
-    pickEl.textContent = `${spot}. ${managerName}`;
-    el.classList.add('taken');
-    el.removeAttribute('onclick');
-  }
-}
-
-function resetBoard() {
-  document.querySelectorAll('.spot').forEach(spot => {
-    spot.classList.remove('taken');
-    spot.setAttribute('onclick', 'selectSpot(this)');
-  });
-  for (let i = 1; i <= 12; i++) {
-    document.getElementById(`pick-${i}`).textContent = `${i}.`;
-  }
-  managerOnClock.textContent = 'Select a manager below';
-  dropdown.selectedIndex = 0;
-  resetTimer();
-}
-
-let timer;
-let timeLeft = 600;
-const display = document.getElementById("timerDisplay");
-const buzzer = document.getElementById("buzzer");
-
-function updateDisplay() {
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  display.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  if (timeLeft <= 60 && timeLeft > 0) {
-    display.classList.add("flashing");
-  } else {
-    display.classList.remove("flashing");
-  }
-}
-
-function startTimer() {
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeLeft--;
-    updateDisplay();
-    if (timeLeft === 0) {
-      clearInterval(timer);
-      buzzer.play();
-      display.classList.remove("flashing");
+      const pick = document.createElement('div');
+      pick.classList.add('draft-pick');
+      pick.id = `pick-${i}`;
+      pick.textContent = `${i}. `;
+      draftOrder.appendChild(pick);
     }
-  }, 1000);
-}
 
-function stopTimer() {
-  clearInterval(timer);
-}
+    function updateClockName() {
+      const dropdown = document.getElementById('managerDropdown');
+      managerOnClock.textContent = dropdown.value;
+    }
 
-function resetTimer() {
-  clearInterval(timer);
-  timeLeft = 600;
-  updateDisplay();
-  display.classList.remove("flashing");
-}
+    function selectSpot(el) {
+      if (el.classList.contains('taken')) return;
+      const spot = el.textContent;
+      const managerName = managerOnClock.textContent;
+      if (managerName === 'Select a manager below') return;
+      const pickEl = document.getElementById(`pick-${spot}`);
+      pickEl.textContent = `${spot}. ${managerName}`;
+      el.classList.add('taken');
+      el.onclick = null;
+    }
 
-updateDisplay();
-</script>
+    function removePickPrompt() {
+      const pickNum = prompt("Enter the draft spot number to clear (1-12):");
+      const spotNum = parseInt(pickNum);
+      if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
+        document.getElementById(`pick-${spotNum}`).textContent = `${spotNum}. `;
+        [...spotsContainer.children].forEach(spot => {
+          if (spot.textContent === String(spotNum)) {
+            spot.classList.remove('taken');
+            spot.onclick = () => selectSpot(spot);
+          }
+        });
+      } else {
+        alert("Invalid input. Please enter a number from 1 to 12.");
+      }
+    }
+
+    function resetBoard() {
+      [...spotsContainer.children].forEach(spot => {
+        spot.classList.remove('taken');
+        spot.onclick = () => selectSpot(spot);
+      });
+      for (let i = 1; i <= 12; i++) {
+        document.getElementById(`pick-${i}`).textContent = `${i}. `;
+      }
+      managerOnClock.textContent = 'Select a manager below';
+      document.getElementById('managerDropdown').selectedIndex = 0;
+    }
+
+    function lockDraft() {
+      document.querySelectorAll('select, button').forEach(el => el.disabled = true);
+      [...spotsContainer.children].forEach(spot => spot.style.pointerEvents = 'none');
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const seconds = (timeLeft % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `${minutes}:${seconds}`;
+      if (timeLeft <= 60 && timeLeft > 0) {
+        timerDisplay.style.color = 'red';
+      } else {
+        timerDisplay.style.color = 'white';
+      }
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          buzzer.play();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timeLeft = 600;
+      updateTimerDisplay();
+    }
+
+    updateTimerDisplay();
+  </script>
 </body>
 </html>
