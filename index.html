@@ -3,317 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BSUC 2025 Draft Lottery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <title>BSUC Draft Lottery</title>
   <style>
-    :root {
-      --navy: #162636;
-      --gold: #C79A5B;
-      --white: #f5f1eb;
-      --burgundy: #A22D2E;
-      --light: #F5F1EB;
-    }
-
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b0c10;
+      color: #fff;
       margin: 0;
-      padding: 0;
-      font-family: 'Anton', sans-serif;
-      background-color: var(--navy);
-      color: var(--white);
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-    }
-
-    header {
-      background: linear-gradient(90deg, var(--burgundy), var(--gold));
-      width: 100%;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     h1 {
-      margin: 0;
-      font-size: 3rem;
-      color: var(--white);
-    }
-
-    .subheader {
-      font-size: 1.1rem;
-      color: #ccc;
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-
-    .on-the-clock {
-      margin-top: 20px;
-      font-size: 1.3rem;
+      font-size: 2.5rem;
+      color: #c79a5b;
+      margin-bottom: 10px;
       text-transform: uppercase;
-      color: var(--gold);
+      letter-spacing: 2px;
     }
 
-    #clockName {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--light);
-      margin-bottom: 20px;
+    #onTheClock {
+      font-size: 1.75rem;
+      color: #fff;
+      margin: 10px 0 5px;
+      text-shadow: 0 0 10px #c79a5b;
     }
 
-    .dropdown-container {
+    #clock {
+      font-size: 2.5rem;
+      color: #fff;
+      background-color: #111;
+      border: 3px solid #c79a5b;
+      border-radius: 12px;
+      padding: 10px 30px;
+      margin: 0 0 20px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(199, 154, 91, 0.6);
+    }
+
+    .clock-controls, .board-controls {
       display: flex;
       flex-wrap: wrap;
+      gap: 12px;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 30px;
-    }
-
-    select, button {
-      font-size: 1rem;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    select {
-      background: #fff;
-      color: #000;
+      margin-bottom: 20px;
     }
 
     button {
-      background: var(--gold);
-      color: var(--navy);
+      padding: 10px 22px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #c79a5b;
+      color: #0b0c10;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #a77a43;
+      transform: translateY(-1px);
     }
 
     .spots {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
-      margin: 20px auto;
-    }
-
-    .spot {
-      background: rgba(245,241,235,0.9);
-      color: var(--navy);
-      font-weight: bold;
-      border-radius: 12px;
-      padding: 15px;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      cursor: pointer;
-    }
-
-    .spot.taken {
-      background: var(--gold);
-      color: var(--navy);
-      pointer-events: none;
-    }
-
-    .draft-order {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 10px;
-      width: 90%;
-      max-width: 800px;
       margin-bottom: 30px;
     }
 
-    .draft-pick {
-      background: var(--light);
-      color: var(--navy);
-      padding: 15px;
-      border-radius: 8px;
+    .spot {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1f1f1f;
+      color: #fff;
+      border: 2px solid #c79a5b;
+      border-radius: 50%;
       font-weight: bold;
-      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    #timerSection {
-      text-align: center;
-      margin: 20px auto 30px;
+    .spot:hover {
+      background-color: #2d2d2d;
+      transform: scale(1.05);
     }
 
-    #timerDisplay {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: var(--gold);
-      text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold);
+    .spot.filled {
+      background-color: #c79a5b;
+      color: #0b0c10;
+      cursor: default;
     }
 
-    .flashing {
-      animation: flash 1s infinite;
+    .draft-board {
+      width: 100%;
+      max-width: 700px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
 
-    @keyframes flash {
-      0%, 100% { color: red; }
-      50% { color: white; }
+    .pick {
+      background: linear-gradient(90deg, #1f1f1f, #2d2d2d);
+      border-left: 6px solid #c79a5b;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: 6px;
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+
+    @media (max-width: 600px) {
+      .draft-board {
+        grid-template-columns: 1fr;
+      }
+      .spot {
+        width: 50px;
+        height: 50px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>BSUC 2025 Draft Lottery</h1>
-  </header>
-  <div class="subheader">Football is legacy. Crooning is life.</div>
+  <h1>BSUC Draft Lottery</h1>
 
-  <div class="on-the-clock">ON THE CLOCK</div>
-  <div id="clockName">Select a manager below</div>
+  <div id="onTheClock">On the Clock: <span id="clockName">---</span></div>
+  <div id="clock">10:00</div>
 
-  <div class="dropdown-container">
-    <select id="managerDropdown" onchange="updateClockName()">
-      <option disabled selected>Select manager</option>
-      <option>Justin</option>
-      <option>Ryan</option>
-      <option>Jared</option>
-      <option>Fyola</option>
-      <option>Alex K</option>
-      <option>Alex G</option>
-      <option>Jimmy</option>
-      <option>Evan</option>
-      <option>Timmy</option>
-      <option>Jonathan</option>
-      <option>Kyle</option>
-      <option>Seth</option>
-    </select>
-    <button onclick="resetBoard()">Reset</button>
+  <div class="clock-controls">
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+  </div>
+
+  <div class="spots" id="spots"></div>
+
+  <div class="board-controls">
+    <button onclick="resetBoard()">Reset Board</button>
     <button onclick="removePickPrompt()">Remove Pick</button>
     <button onclick="lockDraft()">Lock Picks</button>
   </div>
 
-  <div id="timerSection">
-    <div id="timerDisplay">10:00</div>
-    <button onclick="startTimer()">Start</button>
-    <button onclick="stopTimer()">Stop</button>
-    <button onclick="resetTimer()">Reset</button>
-    <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
-  </div>
-
-  <div class="spots" id="spotsContainer">
-    <div class="spot" onclick="selectSpot(this)">1</div>
-    <div class="spot" onclick="selectSpot(this)">2</div>
-    <div class="spot" onclick="selectSpot(this)">3</div>
-    <div class="spot" onclick="selectSpot(this)">4</div>
-    <div class="spot" onclick="selectSpot(this)">5</div>
-    <div class="spot" onclick="selectSpot(this)">6</div>
-    <div class="spot" onclick="selectSpot(this)">7</div>
-    <div class="spot" onclick="selectSpot(this)">8</div>
-    <div class="spot" onclick="selectSpot(this)">9</div>
-    <div class="spot" onclick="selectSpot(this)">10</div>
-    <div class="spot" onclick="selectSpot(this)">11</div>
-    <div class="spot" onclick="selectSpot(this)">12</div>
-  </div>
-
-  <div class="draft-order">
-    <div class="draft-pick" id="pick-1">1. </div>
-    <div class="draft-pick" id="pick-2">2. </div>
-    <div class="draft-pick" id="pick-3">3. </div>
-    <div class="draft-pick" id="pick-4">4. </div>
-    <div class="draft-pick" id="pick-5">5. </div>
-    <div class="draft-pick" id="pick-6">6. </div>
-    <div class="draft-pick" id="pick-7">7. </div>
-    <div class="draft-pick" id="pick-8">8. </div>
-    <div class="draft-pick" id="pick-9">9. </div>
-    <div class="draft-pick" id="pick-10">10. </div>
-    <div class="draft-pick" id="pick-11">11. </div>
-    <div class="draft-pick" id="pick-12">12. </div>
-  </div>
+  <div class="draft-board" id="draftBoard"></div>
 
   <script>
-    const managerOnClock = document.getElementById('clockName');
-    const spots = document.querySelectorAll('.spot');
-    const timerDisplay = document.getElementById("timerDisplay");
-    const buzzer = document.getElementById("buzzer");
+    const managers = ["Justin", "Ryan", "Jared", "Fyola", "Alex K", "Alex G", "Jimmy", "Evan", "Timmy", "Jonathan", "Kyle", "Seth"];
+    let draftOrder = Array(12).fill("");
     let timer;
     let timeLeft = 600;
 
-    function updateClockName() {
-      const dropdown = document.getElementById('managerDropdown');
-      managerOnClock.textContent = dropdown.value;
+    function renderSpots() {
+      const container = document.getElementById("spots");
+      container.innerHTML = "";
+      draftOrder.forEach((name, i) => {
+        const div = document.createElement("div");
+        div.className = `spot ${name ? 'filled' : ''}`;
+        div.innerText = i + 1;
+        if (!name) div.onclick = () => assignSpot(i);
+        container.appendChild(div);
+      });
     }
 
-    function selectSpot(el) {
-      if (el.classList.contains('taken')) return;
-      const spot = el.textContent;
-      const managerName = managerOnClock.textContent;
-      if (managerName === 'Select a manager below') return;
-
-      const pickEl = document.getElementById(`pick-${spot}`);
-      if (pickEl) {
-        pickEl.textContent = `${spot}. ${managerName}`;
-        el.classList.add('taken');
-        el.removeAttribute('onclick');
-      }
+    function assignSpot(i) {
+      const name = document.getElementById("clockName").innerText;
+      if (name === "---") return;
+      if (draftOrder.includes(name)) return;
+      draftOrder[i] = name;
+      renderSpots();
+      renderBoard();
     }
 
     function resetBoard() {
-      spots.forEach(spot => {
-        spot.classList.remove('taken');
-        spot.setAttribute('onclick', 'selectSpot(this)');
-      });
-      for (let i = 1; i <= 12; i++) {
-        document.getElementById(`pick-${i}`).textContent = `${i}. `;
-      }
-      managerOnClock.textContent = 'Select a manager below';
-      document.getElementById('managerDropdown').selectedIndex = 0;
+      draftOrder.fill("");
+      renderSpots();
+      renderBoard();
     }
 
     function removePickPrompt() {
-      const pickNum = prompt("Enter the draft spot number to clear (1-12):");
-      const spotNum = parseInt(pickNum);
-      if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
-        const pickEl = document.getElementById(`pick-${spotNum}`);
-        if (pickEl) pickEl.textContent = `${spotNum}. `;
-
-        spots.forEach(spot => {
-          if (spot.textContent === String(spotNum)) {
-            spot.classList.remove('taken');
-            spot.setAttribute('onclick', 'selectSpot(this)');
-          }
-        });
-      } else {
-        alert("Invalid input. Please enter a number from 1 to 12.");
+      const spot = prompt("Enter pick # to clear:");
+      const index = parseInt(spot) - 1;
+      if (index >= 0 && index < 12) {
+        draftOrder[index] = "";
+        renderSpots();
+        renderBoard();
       }
     }
 
-    function lockDraft() {
-      document.querySelectorAll('select, button').forEach(el => el.disabled = true);
-      spots.forEach(spot => {
-        spot.style.pointerEvents = 'none';
+    function renderBoard() {
+      const board = document.getElementById("draftBoard");
+      board.innerHTML = "";
+      draftOrder.forEach((name, i) => {
+        const div = document.createElement("div");
+        div.className = "pick";
+        div.innerText = `${i + 1}. ${name || "---"}`;
+        board.appendChild(div);
       });
     }
 
-    function formatTime(seconds) {
-      const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const secs = String(seconds % 60).padStart(2, '0');
-      return `${mins}:${secs}`;
+    function lockDraft() {
+      document.querySelectorAll("button").forEach(btn => {
+        if (!btn.textContent.includes("Reset")) btn.disabled = true;
+      });
     }
 
-    function updateTimerDisplay() {
-      timerDisplay.textContent = formatTime(timeLeft);
-      if (timeLeft <= 10 && timeLeft > 0) {
-        timerDisplay.classList.add("flashing");
-      } else {
-        timerDisplay.classList.remove("flashing");
-      }
+    function updateClockName(name) {
+      document.getElementById("clockName").innerText = name;
     }
 
     function startTimer() {
       clearInterval(timer);
       timer = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        if (timeLeft === 0) {
-          clearInterval(timer);
-          buzzer.play();
-          timerDisplay.classList.remove("flashing");
+        if (timeLeft <= 0) {
+          stopTimer();
+          alert("Time's up!");
+        } else {
+          timeLeft--;
+          displayTime();
         }
       }, 1000);
     }
@@ -323,13 +235,20 @@
     }
 
     function resetTimer() {
-      clearInterval(timer);
+      stopTimer();
       timeLeft = 600;
-      updateTimerDisplay();
-      timerDisplay.classList.remove("flashing");
+      displayTime();
     }
 
-    updateTimerDisplay();
+    function displayTime() {
+      const minutes = Math.floor(timeLeft / 60).toString().padStart(2, "0");
+      const seconds = (timeLeft % 60).toString().padStart(2, "0");
+      document.getElementById("clock").innerText = `${minutes}:${seconds}`;
+    }
+
+    renderSpots();
+    renderBoard();
+    displayTime();
   </script>
 </body>
 </html>
