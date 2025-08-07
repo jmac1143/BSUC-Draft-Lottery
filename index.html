@@ -4,136 +4,175 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BSUC 2025 Draft Lottery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --navy: #162636;
       --gold: #C79A5B;
-      --white: #f5f1eb;
+      --burgundy: #A22D2E;
+      --light: #F5F1EB;
+      --accent-hover: #C03A3B;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Karla', sans-serif;
       background-color: var(--navy);
-      color: var(--white);
+      font-family: 'Roboto', sans-serif;
+      color: var(--light);
       margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(90deg, var(--burgundy), var(--gold));
       padding: 20px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     header h1 {
-      font-family: 'League Gothic', sans-serif;
-      font-size: clamp(2rem, 5vw, 4rem);
-      color: var(--gold);
+      font-family: 'Anton', sans-serif;
+      font-size: 2.8rem;
+      color: var(--light);
+      letter-spacing: 2px;
       margin: 0;
     }
 
     .subheader {
-      margin-bottom: 40px;
-      font-size: 1.2rem;
-      color: #ccc;
+      font-style: italic;
+      color: #aaa;
+      margin: 10px auto 30px;
+      text-align: center;
+      font-size: 1.1rem;
     }
 
     .on-the-clock {
-      font-size: 1.4rem;
+      text-align: center;
+      font-size: 1.3rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 30px;
       font-weight: bold;
-      margin-bottom: 10px;
     }
 
-    .clock-name {
+    #clockName {
+      text-align: center;
       font-size: 2rem;
-      font-weight: bold;
-      color: var(--gold);
       margin-bottom: 30px;
+      font-weight: bold;
     }
 
     .dropdown-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       margin-bottom: 30px;
+      gap: 15px;
     }
 
-    select, button {
+    select, button#resetBtn, button#removeBtn {
       font-size: 1.1rem;
       padding: 12px;
       border-radius: 8px;
       border: none;
-      margin: 5px;
-      font-weight: bold;
-    }
-
-    select {
-      background-color: #fff;
-      color: #000;
-    }
-
-    button {
-      background-color: var(--gold);
+      background-color: var(--light);
       color: var(--navy);
+      font-weight: bold;
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #b48a4f;
+    select:hover, button#resetBtn:hover, button#removeBtn:hover {
+      background-color: #e5e2da;
     }
 
     .spots {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 40px;
+      gap: 12px;
+      max-width: 95%;
+      margin: 20px auto 40px;
+      padding: 0 20px;
     }
 
     .spot {
-      background-color: #ffffff22;
-      border: 2px solid var(--gold);
-      padding: 15px;
-      margin: 10px;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 1.3rem;
+      background: rgba(245, 241, 235, 0.95);
+      color: var(--navy);
+      font-size: 1.2rem;
+      font-weight: bold;
+      width: 60px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s, background 0.3s;
       cursor: pointer;
     }
 
-    .spot.taken {
-      background-color: var(--gold);
-      color: var(--navy);
-      border: none;
-      cursor: default;
+    .spot:hover {
+      transform: scale(1.08);
+      background: #ddd;
+    }
+
+    .taken {
+      background-color: #999 !important;
+      color: white !important;
+      pointer-events: none;
     }
 
     .draft-order {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: left;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
     .draft-pick {
-      font-size: 1.3rem;
-      border-bottom: 1px solid #ccc;
-      padding: 10px;
+      background-color: var(--light);
+      color: var(--navy);
+      padding: 16px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
-    @media (max-width: 600px) {
-      .spots {
-        gap: 8px;
-      }
+    #timerSection {
+      text-align: center;
+      margin: 30px 0;
+    }
 
-      .spot {
-        margin: 5px;
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-      }
+    #timerDisplay {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-      .clock-name {
-        font-size: 1.5rem;
-      }
+    .flashing {
+      animation: flash 1s infinite;
+    }
 
-      .draft-order {
-        font-size: 1rem;
-      }
+    @keyframes flash {
+      0%, 100% { color: red; }
+      50% { color: white; }
     }
   </style>
 </head>
@@ -162,9 +201,8 @@
       <option>Kyle</option>
       <option>Seth</option>
     </select>
-    <button onclick="resetBoard()">Reset</button>
-    <button onclick="removePickPrompt()">Remove Pick</button>
-    <button onclick="lockDraft()">Lock Picks</button>
+    <button id="resetBtn" onclick="resetBoard()">Reset</button>
+    <button id="removeBtn" onclick="removePickPrompt()">Remove Pick</button>
   </div>
 
   <div class="spots" id="spotsContainer">
@@ -197,13 +235,22 @@
     <div class="draft-pick" id="pick-12">12. </div>
   </div>
 
+  <div id="timerSection">
+    <div id="timerDisplay">60</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+    <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+  </div>
+
   <script>
     const managerOnClock = document.getElementById('clockName');
     const spots = document.querySelectorAll('.spot');
 
     function updateClockName() {
       const dropdown = document.getElementById('managerDropdown');
-      managerOnClock.textContent = dropdown.value;
+      const selectedName = dropdown.value;
+      managerOnClock.textContent = selectedName;
     }
 
     function selectSpot(el) {
@@ -250,11 +297,42 @@
       }
     }
 
-    function lockDraft() {
-      document.querySelectorAll('select, button').forEach(el => el.disabled = true);
-      spots.forEach(spot => {
-        spot.style.pointerEvents = 'none';
-      });
+    let timer;
+    let timeLeft = 60;
+    const display = document.getElementById("timerDisplay");
+    const buzzer = document.getElementById("buzzer");
+
+    function updateDisplay() {
+      display.textContent = timeLeft;
+      if (timeLeft <= 10 && timeLeft > 0) {
+        display.classList.add("flashing");
+      } else {
+        display.classList.remove("flashing");
+      }
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        updateDisplay();
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          buzzer.play();
+          display.classList.remove("flashing");
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timeLeft = 60;
+      updateDisplay();
+      display.classList.remove("flashing");
     }
   </script>
 </body>
