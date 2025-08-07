@@ -41,7 +41,7 @@
       border-radius: 5px;
       border: none;
     }
-    .spots, .picks {
+    .spots {
       max-width: 900px;
       margin: 0 auto 40px;
       display: flex;
@@ -49,7 +49,7 @@
       justify-content: center;
       gap: 10px;
     }
-    .spot, .pick {
+    .spot {
       background-color: #F5F1EB;
       color: #162636;
       padding: 12px 20px;
@@ -59,10 +59,6 @@
       text-align: center;
       font-weight: bold;
       pointer-events: none;
-    }
-    .pick {
-      width: calc(33% - 20px);
-      text-align: left;
     }
     .taken {
       background-color: #999;
@@ -86,6 +82,21 @@
       border-radius: 5px;
       cursor: pointer;
       margin-left: 10px;
+    }
+    .draft-order {
+      max-width: 400px;
+      margin: 40px auto;
+    }
+    .draft-pick {
+      background-color: #F5F1EB;
+      color: #162636;
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
     }
   </style>
 </head>
@@ -128,30 +139,49 @@
     <div class="spot" onclick="selectSpot(this)">11</div>
     <div class="spot" onclick="selectSpot(this)">12</div>
   </div>
-  <div class="picks" id="picks"></div>
+
+  <div class="draft-order" id="draftOrder">
+    <div class="draft-pick" id="pick-1">1. </div>
+    <div class="draft-pick" id="pick-2">2. </div>
+    <div class="draft-pick" id="pick-3">3. </div>
+    <div class="draft-pick" id="pick-4">4. </div>
+    <div class="draft-pick" id="pick-5">5. </div>
+    <div class="draft-pick" id="pick-6">6. </div>
+    <div class="draft-pick" id="pick-7">7. </div>
+    <div class="draft-pick" id="pick-8">8. </div>
+    <div class="draft-pick" id="pick-9">9. </div>
+    <div class="draft-pick" id="pick-10">10. </div>
+    <div class="draft-pick" id="pick-11">11. </div>
+    <div class="draft-pick" id="pick-12">12. </div>
+  </div>
+
   <script>
-    const picksDiv = document.getElementById('picks');
     const managerOnClock = document.getElementById('clockName');
     const dropdownContainer = document.getElementById('dropdownContainer');
     const spots = document.querySelectorAll('.spot');
+    let adminUnlocked = false;
+
     function updateClockName() {
       const dropdown = document.getElementById('managerDropdown');
       const selectedName = dropdown.value;
       managerOnClock.textContent = selectedName;
     }
+
     function selectSpot(el) {
       if (el.classList.contains('taken') || !adminUnlocked) return;
       const spot = el.textContent;
       const managerName = managerOnClock.textContent;
       if (managerName === 'Select a manager below') return;
-      const pick = document.createElement('div');
-      pick.className = 'pick';
-      pick.innerText = `${spot}. ${managerName}`;
-      picksDiv.appendChild(pick);
+
+      const pickEl = document.getElementById(`pick-${spot}`);
+      if (pickEl) {
+        pickEl.textContent = `${spot}. ${managerName}`;
+      }
+
       el.classList.add('taken');
       el.removeAttribute('onclick');
     }
-    let adminUnlocked = false;
+
     function checkPIN() {
       const inputPIN = document.getElementById('pinInput').value;
       if (inputPIN === '4732') {
