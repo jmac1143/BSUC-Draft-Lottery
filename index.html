@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSUC Draft Board</title>
+  <style>
+    body {
+      background-color: #162636;
+      font-family: 'League Gothic', sans-serif;
+      color: #F5F1EB;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #C79A5B;
+      text-transform: uppercase;
+      font-size: 3rem;
+      margin-bottom: 30px;
+    }
+    .on-the-clock {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #A22D2E;
+      margin-bottom: 10px;
+    }
+    .clock-name {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    .dropdown-container {
+      display: none;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    select {
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    .spots, .picks {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .spot, .pick {
+      background-color: #F5F1EB;
+      color: #162636;
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      min-width: 60px;
+      text-align: center;
+      font-weight: bold;
+      pointer-events: none;
+    }
+    .pick {
+      width: calc(33% - 20px);
+      text-align: left;
+    }
+    .taken {
+      background-color: #999;
+      color: white;
+    }
+    .admin-login {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #pinInput {
+      font-size: 1rem;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+    #loginBtn {
+      padding: 8px 15px;
+      font-size: 1rem;
+      background-color: #C79A5B;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>BSUC 2025 Fantasy Draft Lottery</h1>
+  <div class="admin-login">
+    <input type="password" id="pinInput" placeholder="Enter admin PIN" />
+    <button id="loginBtn" onclick="checkPIN()">Login</button>
+  </div>
+  <div class="on-the-clock">ON THE CLOCK</div>
+  <div class="clock-name" id="clockName">Select a manager below</div>
+  <div class="dropdown-container" id="dropdownContainer">
+    <select id="managerDropdown" onchange="updateClockName()">
+      <option disabled selected>Select manager</option>
+      <option>Justin McCartney (Shrek's New Favorite)</option>
+      <option>Ryan McCartney (Kitty J. Kat)</option>
+      <option>Timmy Lesso (Third Street Legends)</option>
+      <option>Seth Janov (Chartiers-Houston)</option>
+      <option>Alex Kobert</option>
+      <option>Alex Gennuso (Juice)</option>
+      <option>Brian Fyola</option>
+      <option>Jimmy (Jimbo)</option>
+      <option>Jonathan</option>
+      <option>Kyle</option>
+      <option>JB</option>
+      <option>Evan Tyger</option>
+    </select>
+  </div>
+  <div class="spots" id="spotsContainer">
+    <div class="spot" onclick="selectSpot(this)">1</div>
+    <div class="spot" onclick="selectSpot(this)">2</div>
+    <div class="spot" onclick="selectSpot(this)">3</div>
+    <div class="spot" onclick="selectSpot(this)">4</div>
+    <div class="spot" onclick="selectSpot(this)">5</div>
+    <div class="spot" onclick="selectSpot(this)">6</div>
+    <div class="spot" onclick="selectSpot(this)">7</div>
+    <div class="spot" onclick="selectSpot(this)">8</div>
+    <div class="spot" onclick="selectSpot(this)">9</div>
+    <div class="spot" onclick="selectSpot(this)">10</div>
+    <div class="spot" onclick="selectSpot(this)">11</div>
+    <div class="spot" onclick="selectSpot(this)">12</div>
+  </div>
+  <div class="picks" id="picks"></div>
+  <script>
+    const picksDiv = document.getElementById('picks');
+    const managerOnClock = document.getElementById('clockName');
+    const dropdownContainer = document.getElementById('dropdownContainer');
+    const spots = document.querySelectorAll('.spot');
+    function updateClockName() {
+      const dropdown = document.getElementById('managerDropdown');
+      const selectedName = dropdown.value;
+      managerOnClock.textContent = selectedName;
+    }
+    function selectSpot(el) {
+      if (el.classList.contains('taken') || !adminUnlocked) return;
+      const spot = el.textContent;
+      const managerName = managerOnClock.textContent;
+      if (managerName === 'Select a manager below') return;
+      const pick = document.createElement('div');
+      pick.className = 'pick';
+      pick.innerText = `${spot}. ${managerName}`;
+      picksDiv.appendChild(pick);
+      el.classList.add('taken');
+      el.removeAttribute('onclick');
+    }
+    let adminUnlocked = false;
+    function checkPIN() {
+      const inputPIN = document.getElementById('pinInput').value;
+      if (inputPIN === '4732') {
+        adminUnlocked = true;
+        dropdownContainer.style.display = 'flex';
+        spots.forEach(spot => {
+          spot.style.pointerEvents = 'auto';
+        });
+        document.querySelector('.admin-login').style.display = 'none';
+      } else {
+        alert('Incorrect PIN. Try again.');
+      }
+    }
+  </script>
+</body>
+</html>
