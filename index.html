@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BSUC 2025 Draft Lottery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <style>
     :root {
       --navy: #162636;
@@ -14,69 +14,138 @@
       --light: #F5F1EB;
     }
 
-    * { box-sizing: border-box; }
-
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Anton', sans-serif;
       background-color: var(--navy);
       color: var(--white);
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
     }
 
     header {
-      width: 100%;
       background: linear-gradient(90deg, var(--burgundy), var(--gold));
+      width: 100%;
       padding: 20px;
       text-align: center;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
-    header h1 {
-      font-family: 'Anton', sans-serif;
-      font-size: 2.8rem;
-      color: var(--light);
-      letter-spacing: 2px;
+    h1 {
       margin: 0;
+      font-size: 3rem;
+      color: var(--white);
     }
 
     .subheader {
-      margin: 10px auto 30px;
-      font-style: italic;
       font-size: 1.1rem;
       color: #ccc;
-      text-align: center;
+      margin-bottom: 20px;
+      font-style: italic;
     }
 
     .on-the-clock {
-      text-transform: uppercase;
-      font-weight: bold;
-      color: var(--gold);
-      font-size: 1.4rem;
       margin-top: 20px;
-    }
-
-    .clock-row {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      color: var(--gold);
     }
 
     #clockName {
       font-size: 2rem;
       font-weight: bold;
-      color: var(--gold);
-      margin: 10px 0;
+      color: var(--light);
+      margin-bottom: 20px;
     }
 
-    .timer-buttons {
+    .dropdown-container {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
-      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    select, button {
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    select {
+      background: #fff;
+      color: #000;
+    }
+
+    button {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .spots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px auto;
+    }
+
+    .spot {
+      background: rgba(245,241,235,0.9);
+      color: var(--navy);
+      font-weight: bold;
+      border-radius: 12px;
+      padding: 15px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+    }
+
+    .spot.taken {
+      background: var(--gold);
+      color: var(--navy);
+      pointer-events: none;
+    }
+
+    .draft-order {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      width: 90%;
+      max-width: 800px;
+      margin-bottom: 30px;
+    }
+
+    .draft-pick {
+      background: var(--light);
+      color: var(--navy);
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #timerSection {
+      text-align: center;
+      margin: 20px auto 30px;
+    }
+
+    #timerDisplay {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--gold);
+      text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold);
     }
 
     .flashing {
@@ -87,103 +156,6 @@
       0%, 100% { color: red; }
       50% { color: white; }
     }
-
-    #timerDisplay {
-      font-size: 3rem;
-      font-weight: bold;
-      color: var(--gold);
-      text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
-    }
-
-    select, button {
-      font-size: 1rem;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      font-weight: bold;
-      margin: 5px;
-      cursor: pointer;
-    }
-
-    select {
-      background-color: #fff;
-      color: #000;
-    }
-
-    button {
-      background-color: var(--light);
-      color: var(--navy);
-    }
-
-    button:hover {
-      background-color: #e5e2da;
-    }
-
-    .dropdown-container,
-    .board-controls {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .spots {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      max-width: 95%;
-      padding: 0 20px;
-      margin-bottom: 30px;
-    }
-
-    .spot {
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      background: rgba(245, 241, 235, 0.95);
-      color: var(--navy);
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform 0.2s, background 0.3s;
-      cursor: pointer;
-    }
-
-    .spot:hover {
-      transform: scale(1.08);
-      background: #ddd;
-    }
-
-    .spot.taken {
-      background-color: var(--gold);
-      color: var(--navy);
-      cursor: default;
-    }
-
-    .draft-order {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      max-width: 800px;
-      padding: 0 20px;
-      margin-bottom: 40px;
-    }
-
-    .draft-pick {
-      background-color: var(--light);
-      color: var(--navy);
-      font-weight: bold;
-      padding: 16px;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-      font-size: 1.2rem;
-    }
   </style>
 </head>
 <body>
@@ -192,16 +164,8 @@
   </header>
   <div class="subheader">Football is legacy. Crooning is life.</div>
 
-  <div class="clock-row">
-    <div class="on-the-clock">ON THE CLOCK</div>
-    <div id="clockName">Select a manager below</div>
-    <div id="timerDisplay">600</div>
-    <div class="timer-buttons">
-      <button onclick="startTimer()">Start</button>
-      <button onclick="stopTimer()">Stop</button>
-      <button onclick="resetTimer()">Reset</button>
-    </div>
-  </div>
+  <div class="on-the-clock">ON THE CLOCK</div>
+  <div id="clockName">Select a manager below</div>
 
   <div class="dropdown-container">
     <select id="managerDropdown" onchange="updateClockName()">
@@ -219,12 +183,17 @@
       <option>Kyle</option>
       <option>Seth</option>
     </select>
-  </div>
-
-  <div class="board-controls">
-    <button onclick="resetBoard()">Reset Board</button>
+    <button onclick="resetBoard()">Reset</button>
     <button onclick="removePickPrompt()">Remove Pick</button>
     <button onclick="lockDraft()">Lock Picks</button>
+  </div>
+
+  <div id="timerSection">
+    <div id="timerDisplay">10:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="stopTimer()">Stop</button>
+    <button onclick="resetTimer()">Reset</button>
+    <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
   </div>
 
   <div class="spots" id="spotsContainer">
@@ -242,7 +211,7 @@
     <div class="spot" onclick="selectSpot(this)">12</div>
   </div>
 
-  <div class="draft-order" id="draftOrder">
+  <div class="draft-order">
     <div class="draft-pick" id="pick-1">1. </div>
     <div class="draft-pick" id="pick-2">2. </div>
     <div class="draft-pick" id="pick-3">3. </div>
@@ -257,74 +226,90 @@
     <div class="draft-pick" id="pick-12">12. </div>
   </div>
 
-  <audio id="buzzer" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
-
   <script>
-    const clockName = document.getElementById("clockName");
+    const managerOnClock = document.getElementById('clockName');
+    const spots = document.querySelectorAll('.spot');
     const timerDisplay = document.getElementById("timerDisplay");
     const buzzer = document.getElementById("buzzer");
-    const spots = document.querySelectorAll(".spot");
-    let timer, timeLeft = 600;
+    let timer;
+    let timeLeft = 600;
 
     function updateClockName() {
-      const name = document.getElementById("managerDropdown").value;
-      clockName.textContent = name;
+      const dropdown = document.getElementById('managerDropdown');
+      managerOnClock.textContent = dropdown.value;
     }
 
     function selectSpot(el) {
-      if (el.classList.contains("taken")) return;
+      if (el.classList.contains('taken')) return;
       const spot = el.textContent;
-      const manager = clockName.textContent;
-      if (manager === "Select a manager below") return;
+      const managerName = managerOnClock.textContent;
+      if (managerName === 'Select a manager below') return;
+
       const pickEl = document.getElementById(`pick-${spot}`);
-      pickEl.textContent = `${spot}. ${manager}`;
-      el.classList.add("taken");
-      el.removeAttribute("onclick");
+      if (pickEl) {
+        pickEl.textContent = `${spot}. ${managerName}`;
+        el.classList.add('taken');
+        el.removeAttribute('onclick');
+      }
     }
 
     function resetBoard() {
       spots.forEach(spot => {
-        spot.classList.remove("taken");
-        spot.setAttribute("onclick", "selectSpot(this)");
+        spot.classList.remove('taken');
+        spot.setAttribute('onclick', 'selectSpot(this)');
       });
       for (let i = 1; i <= 12; i++) {
         document.getElementById(`pick-${i}`).textContent = `${i}. `;
       }
-      clockName.textContent = "Select a manager below";
-      document.getElementById("managerDropdown").selectedIndex = 0;
+      managerOnClock.textContent = 'Select a manager below';
+      document.getElementById('managerDropdown').selectedIndex = 0;
     }
 
     function removePickPrompt() {
-      const pickNum = prompt("Enter pick number to remove (1-12):");
-      const num = parseInt(pickNum);
-      if (!isNaN(num) && num >= 1 && num <= 12) {
-        document.getElementById(`pick-${num}`).textContent = `${num}. `;
+      const pickNum = prompt("Enter the draft spot number to clear (1-12):");
+      const spotNum = parseInt(pickNum);
+      if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
+        const pickEl = document.getElementById(`pick-${spotNum}`);
+        if (pickEl) pickEl.textContent = `${spotNum}. `;
+
         spots.forEach(spot => {
-          if (spot.textContent === String(num)) {
-            spot.classList.remove("taken");
-            spot.setAttribute("onclick", "selectSpot(this)");
+          if (spot.textContent === String(spotNum)) {
+            spot.classList.remove('taken');
+            spot.setAttribute('onclick', 'selectSpot(this)');
           }
         });
       } else {
-        alert("Invalid pick number.");
+        alert("Invalid input. Please enter a number from 1 to 12.");
       }
     }
 
     function lockDraft() {
       document.querySelectorAll('select, button').forEach(el => el.disabled = true);
-      spots.forEach(spot => spot.style.pointerEvents = 'none');
+      spots.forEach(spot => {
+        spot.style.pointerEvents = 'none';
+      });
+    }
+
+    function formatTime(seconds) {
+      const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+
+    function updateTimerDisplay() {
+      timerDisplay.textContent = formatTime(timeLeft);
+      if (timeLeft <= 10 && timeLeft > 0) {
+        timerDisplay.classList.add("flashing");
+      } else {
+        timerDisplay.classList.remove("flashing");
+      }
     }
 
     function startTimer() {
       clearInterval(timer);
       timer = setInterval(() => {
         timeLeft--;
-        timerDisplay.textContent = timeLeft;
-        if (timeLeft <= 10 && timeLeft > 0) {
-          timerDisplay.classList.add("flashing");
-        } else {
-          timerDisplay.classList.remove("flashing");
-        }
+        updateTimerDisplay();
         if (timeLeft === 0) {
           clearInterval(timer);
           buzzer.play();
@@ -340,9 +325,11 @@
     function resetTimer() {
       clearInterval(timer);
       timeLeft = 600;
-      timerDisplay.textContent = timeLeft;
+      updateTimerDisplay();
       timerDisplay.classList.remove("flashing");
     }
+
+    updateTimerDisplay();
   </script>
 </body>
 </html>
