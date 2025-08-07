@@ -3,47 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BSUC Draft Board</title>
+  <title>BSUC 2025 Draft Lottery</title>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --navy: #162636;
+      --gold: #C79A5B;
+      --burgundy: #A22D2E;
+      --light: #F5F1EB;
+      --accent-hover: #C03A3B;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #162636;
+      background-color: var(--navy);
       font-family: 'Roboto', sans-serif;
-      color: #F5F1EB;
+      color: var(--light);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(90deg, var(--burgundy), var(--gold));
       padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.8rem;
+      color: var(--light);
+      letter-spacing: 2px;
       margin: 0;
     }
 
-    h1 {
-      font-family: 'Anton', sans-serif;
+    .subheader {
+      font-style: italic;
+      color: #aaa;
+      margin: 10px auto 30px;
       text-align: center;
-      color: #C79A5B;
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
+      font-size: 1.1rem;
     }
 
-    .subheader {
+    .admin-login {
       text-align: center;
-      font-size: 1.2rem;
-      color: #aaa;
-      margin-bottom: 30px;
-      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .admin-login input[type="password"] {
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-right: 10px;
+    }
+
+    .admin-login button {
+      padding: 10px 18px;
+      font-size: 1rem;
+      background-color: var(--burgundy);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--light);
+      font-weight: bold;
+    }
+
+    .admin-login button:hover {
+      background-color: var(--accent-hover);
     }
 
     .on-the-clock {
       text-align: center;
       font-size: 1.3rem;
-      color: #C79A5B;
+      color: var(--gold);
       text-transform: uppercase;
-      margin-bottom: 5px;
+      margin-top: 30px;
       font-weight: bold;
     }
 
-    .clock-name {
+    #clockName {
       text-align: center;
       font-size: 2rem;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       font-weight: bold;
     }
 
@@ -55,95 +108,82 @@
       gap: 15px;
     }
 
-    select {
-      font-size: 1.2rem;
+    select, button#resetBtn, button#removeBtn {
+      font-size: 1.1rem;
       padding: 12px;
       border-radius: 8px;
       border: none;
-      background-color: #F5F1EB;
-      color: #162636;
+      background-color: var(--light);
+      color: var(--navy);
       font-weight: bold;
-    }
-
-    #loginBtn, #resetBtn, #removeBtn {
-      padding: 10px 18px;
-      font-size: 1rem;
-      background-color: #A22D2E;
-      border: none;
-      border-radius: 8px;
       cursor: pointer;
-      color: #fff;
-      font-weight: bold;
     }
 
-    #loginBtn:hover, #resetBtn:hover, #removeBtn:hover {
-      background-color: #C03A3B;
-    }
-
-    .admin-login {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    #pinInput {
-      font-size: 1rem;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-right: 10px;
+    select:hover, button#resetBtn:hover, button#removeBtn:hover {
+      background-color: #e5e2da;
     }
 
     .spots {
-      max-width: 1000px;
-      margin: 0 auto 30px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-      gap: 12px;
-      justify-items: center;
+      gap: 16px;
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
     }
 
     .spot {
-      background-color: #F5F1EB;
-      color: #162636;
-      padding: 14px;
+      background: rgba(245, 241, 235, 0.95);
+      color: var(--navy);
       font-size: 1.2rem;
-      border-radius: 12px;
-      min-width: 60px;
-      text-align: center;
       font-weight: bold;
-      pointer-events: none;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
+      padding: 16px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s, background 0.3s;
     }
 
     .spot:hover {
       transform: scale(1.05);
+      background: #ddd;
     }
 
     .taken {
-      background-color: #999;
-      color: white;
+      background-color: #999 !important;
+      color: white !important;
     }
 
     .draft-order {
-      max-width: 500px;
+      max-width: 600px;
       margin: 40px auto;
+      padding: 0 20px;
     }
 
     .draft-pick {
-      background-color: #F5F1EB;
-      color: #162636;
-      padding: 12px 18px;
-      margin: 6px 0;
+      background-color: var(--light);
+      color: var(--navy);
+      padding: 14px 20px;
       font-size: 1.2rem;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: bold;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
   </style>
+</head>
+<body>
+  <header>
+    <h1>BSUC 2025 Draft Lottery</h1>
+  </header>
+  <div class="subheader">Football is legacy. Crooning is life.</div>
+
+  <!-- Keep your working login, dropdown, and board code below this line -->
+
+</body>
+</html>
 
 <body>
   <h1>BSUC 2025 Fantasy Draft Lottery</h1>
