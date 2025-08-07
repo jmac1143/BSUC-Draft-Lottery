@@ -2,117 +2,166 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BSUC Draft Board</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       background-color: #162636;
-      font-family: 'League Gothic', sans-serif;
+      font-family: 'Roboto', sans-serif;
       color: #F5F1EB;
       padding: 20px;
       margin: 0;
     }
+
     h1 {
+      font-family: 'Anton', sans-serif;
       text-align: center;
       color: #C79A5B;
-      text-transform: uppercase;
-      font-size: 3rem;
-      margin-bottom: 30px;
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
     }
+
+    .subheader {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #aaa;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
     .on-the-clock {
       text-align: center;
-      font-size: 1.5rem;
-      color: #A22D2E;
-      margin-bottom: 10px;
+      font-size: 1.3rem;
+      color: #C79A5B;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
+
     .clock-name {
       text-align: center;
       font-size: 2rem;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      font-weight: bold;
     }
+
+    .admin-login {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #pinInput {
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-right: 10px;
+    }
+
+    #loginBtn, #resetBtn, #removeBtn {
+      padding: 10px 18px;
+      font-size: 1rem;
+      background-color: #A22D2E;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    #loginBtn:hover, #resetBtn:hover, #removeBtn:hover {
+      background-color: #C03A3B;
+    }
+
     .dropdown-container {
       display: none;
       justify-content: center;
+      flex-wrap: wrap;
       margin-bottom: 30px;
-      gap: 20px;
+      gap: 15px;
     }
+
     select {
       font-size: 1.2rem;
-      padding: 10px;
-      border-radius: 5px;
+      padding: 12px;
+      border-radius: 8px;
       border: none;
+      background-color: #F5F1EB;
+      color: #162636;
+      font-weight: bold;
     }
+
     .spots {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 12px;
+      justify-items: center;
     }
+
     .spot {
       background-color: #F5F1EB;
       color: #162636;
-      padding: 12px 20px;
+      padding: 14px;
       font-size: 1.2rem;
-      border-radius: 8px;
+      border-radius: 12px;
       min-width: 60px;
       text-align: center;
       font-weight: bold;
       pointer-events: none;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
     }
+
+    .spot:hover {
+      transform: scale(1.05);
+    }
+
     .taken {
       background-color: #999;
       color: white;
     }
-    .admin-login {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #pinInput {
-      font-size: 1rem;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
-    }
-    #loginBtn, #resetBtn, #removeBtn {
-      padding: 8px 15px;
-      font-size: 1rem;
-      background-color: #C79A5B;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
+
     .draft-order {
-      max-width: 400px;
+      max-width: 500px;
       margin: 40px auto;
     }
+
     .draft-pick {
       background-color: #F5F1EB;
       color: #162636;
-      padding: 10px;
-      margin: 5px 0;
+      padding: 12px 18px;
+      margin: 6px 0;
       font-size: 1.2rem;
-      border-radius: 5px;
+      border-radius: 8px;
       font-weight: bold;
       display: flex;
       justify-content: space-between;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.15);
     }
   </style>
 </head>
+
 <body>
-  <h1>BSUC 2025 Fantasy Draft Lottery</h1>
+  <h1>BSUC 2025 Draft Lottery</h1>
+  <div class="subheader">Football is legacy. Crooning is life.</div>
+
   <div class="admin-login">
-    <input type="password" id="pinInput" placeholder="Enter admin PIN" />
-    <button id="loginBtn" onclick="checkPIN()">Login</button>
+    <input type="password" id="pinInput" placeholder="Enter PIN" />
+    <button id="loginBtn">Login</button>
   </div>
+
   <div class="on-the-clock">ON THE CLOCK</div>
-  <div class="clock-name" id="clockName">Select a manager below</div>
+  <div id="clockName" class="clock-name">Waiting for draw...</div>
+
   <div class="dropdown-container" id="dropdownContainer">
-    <select id="managerDropdown" onchange="updateClockName()">
-      <option disabled selected>Select manager</option>
+    <select id="managerSelect">
+      <option disabled selected>Select Manager</option>
       <option>Justin</option>
       <option>Ryan</option>
       <option>Jared</option>
@@ -126,106 +175,92 @@
       <option>Kyle</option>
       <option>Seth</option>
     </select>
-    <button id="resetBtn" onclick="resetBoard()">Reset</button>
-    <button id="removeBtn" onclick="removePickPrompt()">Remove Pick</button>
+    <button id="resetBtn">Reset</button>
+    <button id="removeBtn">Remove Pick</button>
   </div>
-  <div class="spots" id="spotsContainer">
-    <div class="spot" onclick="selectSpot(this)">1</div>
-    <div class="spot" onclick="selectSpot(this)">2</div>
-    <div class="spot" onclick="selectSpot(this)">3</div>
-    <div class="spot" onclick="selectSpot(this)">4</div>
-    <div class="spot" onclick="selectSpot(this)">5</div>
-    <div class="spot" onclick="selectSpot(this)">6</div>
-    <div class="spot" onclick="selectSpot(this)">7</div>
-    <div class="spot" onclick="selectSpot(this)">8</div>
-    <div class="spot" onclick="selectSpot(this)">9</div>
-    <div class="spot" onclick="selectSpot(this)">10</div>
-    <div class="spot" onclick="selectSpot(this)">11</div>
-    <div class="spot" onclick="selectSpot(this)">12</div>
-  </div>
-  <div class="draft-order" id="draftOrder">
-    <div class="draft-pick" id="pick-1">1. </div>
-    <div class="draft-pick" id="pick-2">2. </div>
-    <div class="draft-pick" id="pick-3">3. </div>
-    <div class="draft-pick" id="pick-4">4. </div>
-    <div class="draft-pick" id="pick-5">5. </div>
-    <div class="draft-pick" id="pick-6">6. </div>
-    <div class="draft-pick" id="pick-7">7. </div>
-    <div class="draft-pick" id="pick-8">8. </div>
-    <div class="draft-pick" id="pick-9">9. </div>
-    <div class="draft-pick" id="pick-10">10. </div>
-    <div class="draft-pick" id="pick-11">11. </div>
-    <div class="draft-pick" id="pick-12">12. </div>
-  </div>
+
+  <div class="spots" id="spotButtons"></div>
+
+  <div class="draft-order" id="draftOrderList"></div>
+
   <script>
-    const managerOnClock = document.getElementById('clockName');
-    const dropdownContainer = document.getElementById('dropdownContainer');
-    const spots = document.querySelectorAll('.spot');
-    let adminUnlocked = false;
+    const pinInput = document.getElementById("pinInput");
+    const loginBtn = document.getElementById("loginBtn");
+    const dropdownContainer = document.getElementById("dropdownContainer");
+    const managerSelect = document.getElementById("managerSelect");
+    const spotButtons = document.getElementById("spotButtons");
+    const draftOrderList = document.getElementById("draftOrderList");
+    const clockName = document.getElementById("clockName");
 
-    function updateClockName() {
-      const dropdown = document.getElementById('managerDropdown');
-      const selectedName = dropdown.value;
-      managerOnClock.textContent = selectedName;
-    }
+    const managers = [
+      "Justin", "Ryan", "Jared", "Fyola", "Alex K", "Alex G",
+      "Jimmy", "Evan", "Timmy", "Jonathan", "Kyle", "Seth"
+    ];
 
-    function selectSpot(el) {
-      if (el.classList.contains('taken') || !adminUnlocked) return;
-      const spot = el.textContent;
-      const managerName = managerOnClock.textContent;
-      if (managerName === 'Select a manager below') return;
+    let draftOrder = Array(12).fill(null);
 
-      const pickEl = document.getElementById(`pick-${spot}`);
-      if (pickEl) {
-        pickEl.textContent = `${spot}. ${managerName}`;
-        el.classList.add('taken');
-        el.removeAttribute('onclick');
-      }
-    }
-
-    function resetBoard() {
-      spots.forEach(spot => {
-        spot.classList.remove('taken');
-        spot.setAttribute('onclick', 'selectSpot(this)');
-      });
+    function renderSpots() {
+      spotButtons.innerHTML = "";
       for (let i = 1; i <= 12; i++) {
-        document.getElementById(`pick-${i}`).textContent = `${i}. `;
-      }
-      managerOnClock.textContent = 'Select a manager below';
-      document.getElementById('managerDropdown').selectedIndex = 0;
-    }
+        const btn = document.createElement("button");
+        btn.classList.add("spot");
+        btn.innerText = i;
+        if (draftOrder[i - 1]) btn.classList.add("taken");
 
-    function removePickPrompt() {
-      const pickNum = prompt("Enter the draft spot number to clear (1-12):");
-      const spotNum = parseInt(pickNum);
-      if (!isNaN(spotNum) && spotNum >= 1 && spotNum <= 12) {
-        const pickEl = document.getElementById(`pick-${spotNum}`);
-        if (pickEl) pickEl.textContent = `${spotNum}. `;
-
-        spots.forEach(spot => {
-          if (spot.textContent === String(spotNum)) {
-            spot.classList.remove('taken');
-            spot.setAttribute('onclick', 'selectSpot(this)');
-          }
+        btn.addEventListener("click", () => {
+          const selectedManager = managerSelect.value;
+          if (!selectedManager || selectedManager === "Select Manager") return;
+          draftOrder[i - 1] = selectedManager;
+          managers.splice(managers.indexOf(selectedManager), 1);
+          updateDraftList();
+          renderSpots();
+          managerSelect.value = "Select Manager";
+          clockName.innerText = "Waiting for draw...";
         });
-      } else {
-        alert("Invalid input. Please enter a number from 1 to 12.");
+
+        spotButtons.appendChild(btn);
       }
     }
 
-    function checkPIN() {
-      const inputPIN = document.getElementById('pinInput').value;
-      if (inputPIN === '4732') {
-        adminUnlocked = true;
-        dropdownContainer.style.display = 'flex';
-        spots.forEach(spot => {
-          spot.style.pointerEvents = 'auto';
-        });
-        document.querySelector('.admin-login').style.display = 'none';
-      } else {
-        alert('Incorrect PIN. Try again.');
-      }
+    function updateDraftList() {
+      draftOrderList.innerHTML = draftOrder
+        .map((name, i) => name ? `<div class="draft-pick"><span>#${i + 1}</span><span>${name}</span></div>` : "")
+        .join("");
     }
+
+    loginBtn.addEventListener("click", () => {
+      if (pinInput.value === "4732") {
+        dropdownContainer.style.display = "flex";
+      }
+    });
+
+    managerSelect.addEventListener("change", () => {
+      const selected = managerSelect.value;
+      if (selected && selected !== "Select Manager") {
+        clockName.innerText = selected;
+      }
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      draftOrder = Array(12).fill(null);
+      clockName.innerText = "Waiting for draw...";
+      managerSelect.value = "Select Manager";
+      renderSpots();
+      updateDraftList();
+    });
+
+    document.getElementById("removeBtn").addEventListener("click", () => {
+      const pick = prompt("Enter the draft spot number to clear (1-12):");
+      const index = parseInt(pick) - 1;
+      if (index >= 0 && index < 12 && draftOrder[index]) {
+        managers.push(draftOrder[index]);
+        draftOrder[index] = null;
+        renderSpots();
+        updateDraftList();
+      }
+    });
+
+    renderSpots();
   </script>
 </body>
 </html>
